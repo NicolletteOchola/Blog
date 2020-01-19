@@ -118,4 +118,11 @@ def new_comment(post_id):
     myposts = Post.query.order_by(Post.posted_date.desc())
     return render_template('new-comment.html', title='New Comment', form=form, legend='New Comment', myposts=myposts, quotes=quotes)
 
-
+@posts.route('/deleteComment/<int:comment_id>/<int:post_id>', methods=["GET", "POST"])
+def deleteComment(comment_id, post_id):
+    post = Post.query.get_or_404(post_id)
+    
+    comment = Comment.query.filter_by(id=comment_id).first()
+    db.session.delete(comment)
+    db.session.commit()
+    return redirect(url_for("posts.post", post_id=post.id))
