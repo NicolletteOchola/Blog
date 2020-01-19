@@ -94,3 +94,12 @@ def delete_post(post_id):
     db.session.commit()
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('main.home'))
+
+@posts.route("/post/<string:category>")
+def category_post(category):
+    post = Post.query.filter_by(category=category).all()
+    print("..............", post)
+    myposts = Post.query.order_by(Post.posted_date.desc())
+    return render_template('category.html', post=post, category=category, myposts=myposts, quotes=quotes) 
+
+
