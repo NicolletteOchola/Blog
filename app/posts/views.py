@@ -132,4 +132,25 @@ def commentpage(id):
     comments = Comment.query.filter_by(id = id).all()
     return render_template('comment.html', title=Comment, comments = comments)
 
+@posts.route("/comment/<int:comment_id>/delete", methods=['POST'])
+@login_required
+def comment(coment_id):
+    post = Post.query.get_or_404(post_id)
+    comments = Comment.query.get_or_404(comment_id)
+    if post.author != current_user:
+        abort(403)
+    db.session.delete(comments)
+    db.session.commit()
+    flash('The comment has been deleted!', 'success')
+    return redirect(url_for('posts.post', comment_id=comment.id))
+
+
+@posts.route('/quote')
+def getquotes():
+
+    quotes = get_quote()
+    # title = name
+    
+    return render_template('layout.html', quotes=quotes)
+
 
