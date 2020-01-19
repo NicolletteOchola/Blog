@@ -126,3 +126,10 @@ def deleteComment(comment_id, post_id):
     db.session.delete(comment)
     db.session.commit()
     return redirect(url_for("posts.post", post_id=post.id))
+
+@posts.route("/comment/<int:id>")
+def commentpage(id):
+    comments = Comment.query.filter_by(id = id).all()
+    return render_template('comment.html', title=Comment, comments = comments)
+
+
