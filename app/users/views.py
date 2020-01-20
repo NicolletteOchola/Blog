@@ -81,7 +81,7 @@ def login():
             return redirect(request.args.get('next') or url_for('main.home'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
-    return render_template('login.html', form=login_form)
+    return render_template('login.html', title='Login', form=login_form, quotes=quotes)
 
 
 @users.route("/logout")
@@ -132,12 +132,8 @@ def account():
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
-        form.fullname.data = current_user.fullname
-        form.bio.data = current_user.bio
-        form.facebook.data = current_user.facebook
-        form.twitter.data = current_user.twitter
-        form.github.data = current_user.github
-        form.linkedin.data = current_user.linkedin
+        
+       
 
     page = request.args.get('page', 1, type=int)
     user = User.query.filter_by(username=current_user.username).first_or_404()
